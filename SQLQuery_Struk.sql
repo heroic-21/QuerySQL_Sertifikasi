@@ -67,7 +67,7 @@ VALUES
 (1, 20000.00, 30, 20);
 GO
 
-CREATE VIEW vw_LaporanPenjualanDetail AS
+CREATE VIEW vw_LaporanPenjualanDetail_ AS
 SELECT 
     o.OrderId,
     o.NamaKustomer,
@@ -131,7 +131,7 @@ BEGIN
     FROM Menu
     INNER JOIN inserted ON Menu.MenuId = inserted.MenuId;
 
-    IF EXISTS (SELECT 1 FROM Menu WHERE Stok < 0)
+    IF EXISTS (SELECT 1 FROM Menu WHERE Stok = 0)
     BEGIN
         RAISERROR ('Transaksi dibatalkan! Stok menu tidak mencukupi.', 16, 1);
         ROLLBACK TRANSACTION;
@@ -187,16 +187,24 @@ SELECT dbo.fn_HitungTotalOrder(5) AS TotalHargaOrder;
 
 -- Saat Anda memasukkan data baru ke tabel Struk seperti ini:
 INSERT INTO Struk (Jumlah, HargaOrder, OrderId, MenuId)
-VALUES (2, 15000, 10, 3);
+VALUES (2, 15000, 10, 1);
 -- Secara otomatis, trigger akan langsung:
 -- 1. Mengurangi stok Menu dengan MenuId = 3 sebanyak 2 buah di tabel Menu.
 -- 2. Mengecek apakah stoknya minus. Jika ya, transaksi dibatalkan.
 
 EXEC sp_BuatOrderBaru 
-    @NamaKustomer = 'Budi Santoso', 
+    @NamaKustomer = 'Safri', 
     @NomorAntrian = 12, 
     @TipeOrder = 1,          -- Contoh: 1 untuk Dine-In
     @MetodePembayaran = 2,   -- Contoh: 2 untuk QRIS/Transfer
     @MejaId = 5,             -- Nomor meja
     @MenuId = 3,             -- Menu yang dibeli (misal: Chicken Katsu)
     @JumlahBeli = 2;         -- Jumlah pesanan
+
+SELECT * FROM [ORDER] WHERE NamaKustomer = 'Safri'
+
+SELECT * FROM STRUK WHERE MenuId = 3
+
+SELECT *  FROM [Order] o
+INNER JOIN Struk s ON o.OrderId = s.OrderId
+WHERE o.NamaKustomer = 'Safri'

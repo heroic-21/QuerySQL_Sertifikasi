@@ -2,7 +2,7 @@
 CREATE UNIQUE INDEX IdxNamaMenu ON Menu (NamaMenu);
 
 -- Menampilkan Data Berdasarkan NamaMenu
-SELECT * FROM Menu WHERE NamaMenu = N'Nasi Goreng';
+SELECT * FROM Menu WHERE NamaMenu = N'Nasi Goreng Special';
 
 -- Menampilkan Semua Data
 SELECT * FROM Menu;
@@ -45,7 +45,7 @@ VALUES
 
 -- Melakukan Update Data
 UPDATE Menu
-SET HargaAsli = 27000.00
+SET Stok = 0
 WHERE NamaMenu = N'Nasi Goreng Spesial';
 
 -- Menghapus Data

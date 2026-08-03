@@ -2,7 +2,19 @@
 CREATE UNIQUE INDEX IndexNamaKategori ON Kategori (NamaKategori);
 
 -- Menampilkan Data Berdasarkan NamaKategori
-SELECT * FROM Kategori WHERE NamaKategori = N'Minuman';
+SELECT * FROM Kategori WHERE Icon = 'utensils';
+
+SET STATISTICS TIME ON;
+SET STATISTICS IO ON;
+SELECT * FROM Kategori WHERE NamaKategori = N'Makanan Berat';
+SET STATISTICS TIME OFF;
+SET STATISTICS IO OFF;
+
+SET STATISTICS TIME ON;
+SET STATISTICS IO ON;
+SELECT * FROM Kategori WHERE Icon = 'utensils';
+SET STATISTICS TIME OFF;
+SET STATISTICS IO OFF;
 
 -- Menampilkan Semua Data
 SELECT * FROM Kategori;
